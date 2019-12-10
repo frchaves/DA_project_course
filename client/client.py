@@ -18,32 +18,32 @@ def print_nice(r):
     elif res.has_key("tableAA"):
         res=res["tableAA"]
         if res=={}:
-            print 'Nenhum resultado encontrado'
+            print 'No result found'
         for x in res.keys():
-            print "ID aluno: "+x
-            print "Nome: "+res[x][0]
-            print "Nacionalidade: "+res[x][1]
-            print "Idade: "+str(res[x][2])
+            print "ID student: "+x
+            print "Name: "+res[x][0]
+            print "Nationality: "+res[x][1]
+            print "Age: "+str(res[x][2])
             print "\n"
     elif res.has_key("tableAD"):
         res=res["tableAD"]
         if res=={}:
-            print 'Nenhum resultado encontrado'
+            print 'No result found'
         for x in res.keys():
-            print "ID disciplina: "+x
-            print "Designacao: "+res[x][0]
-            print "Semestre: "+str(res[x][1])
-            print "Ano: "+str(res[x][2])
+            print "ID course: "+x
+            print "Description: "+res[x][0]
+            print "Semester: "+str(res[x][1])
+            print "Year: "+str(res[x][2])
             print "\n"
     elif res.has_key("tableAT"):
         res=res["tableAT"]
         if res=={}:
-            print 'Nenhum resultado encontrado'
+            print 'No result found'
         for x in res.keys():
-            print "ID Turma: "+x
-            print "ID disciplina : "+str(res[x][0])
-            print "tipo: "+res[x][1]
-            print "designacao: "+res[x][2]
+            print "ID Class: "+x
+            print "ID course : "+str(res[x][0])
+            print "type: "+res[x][1]
+            print "description: "+res[x][2]
             print "\n"    
         
 
@@ -58,21 +58,21 @@ while on:
     elif cmdinput[0]=="ADD":
         try:
             if len(cmdinput)==5:
-                if cmdinput[1]=="ALUNO":
-                    msg=json.dumps({'nacionalidade':cmdinput[2],'idade':cmdinput[3],'nome':cmdinput[4]})
-                    r = requests.put(url+'alunos',data=msg)
+                if cmdinput[1]=="STUDENT":
+                    msg=json.dumps({'nationality':cmdinput[2],'age':cmdinput[3],'name':cmdinput[4]})
+                    r = requests.put(url+'students',data=msg)
                     print_nice(r)
-                elif cmdinput[1]=="DISCIPLINA":
-                    msg=json.dumps({'ano':cmdinput[2],'semestre':cmdinput[3],'designacao':cmdinput[4]})
-                    r = requests.put(url+'disciplinas',data=msg)
+                elif cmdinput[1]=="COURSE":
+                    msg=json.dumps({'year':cmdinput[2],'semester':cmdinput[3],'description':cmdinput[4]})
+                    r = requests.put(url+'courses',data=msg)
                     print_nice(r)
-                elif cmdinput[1]=="TURMA":
-                    msg=json.dumps({'id_disciplina':cmdinput[2],'tipo':cmdinput[3],'designacao':cmdinput[4]})
-                    r = requests.put(url+'turmas',data=msg)
+                elif cmdinput[1]=="CLASS":
+                    msg=json.dumps({'id_course':cmdinput[2],'type':cmdinput[3],'description':cmdinput[4]})
+                    r = requests.put(url+'classes',data=msg)
                     print_nice(r)
             elif (len(cmdinput)==3):
-                msg=json.dumps({'id_aluno':cmdinput[1],'id_turma':cmdinput[2]})
-                r = requests.post(url+'turmas',data=msg)
+                msg=json.dumps({'id_student':cmdinput[1],'id_class':cmdinput[2]})
+                r = requests.post(url+'classes',data=msg)
                 print_nice(r)
             else:
                 print "Invalid input"
@@ -80,45 +80,45 @@ while on:
             print "Unexpected Error"
     elif cmdinput[0]=="REMOVE":
         try:
-            if cmdinput[1]=="ALUNO":
-                msg=json.dumps({'id_aluno':cmdinput[2]})
-                r = requests.delete(url+'alunos',data=msg)
+            if cmdinput[1]=="STUDENT":
+                msg=json.dumps({'id_student':cmdinput[2]})
+                r = requests.delete(url+'students',data=msg)
                 print_nice(r)
-            elif cmdinput[1]=="DISCIPLINA":
-                msg=json.dumps({'id_disciplina':cmdinput[2]})
-                r = requests.delete(url+'disciplinas',data=msg)
+            elif cmdinput[1]=="COURSE":
+                msg=json.dumps({'id_course':cmdinput[2]})
+                r = requests.delete(url+'courses',data=msg)
                 print_nice(r)
-            elif cmdinput[1]=="TURMA":
-                msg=json.dumps({'id_turma':cmdinput[2]})
-                r = requests.delete(url+'turmas',data=msg)
+            elif cmdinput[1]=="CLASS":
+                msg=json.dumps({'id_class':cmdinput[2]})
+                r = requests.delete(url+'classes',data=msg)
                 print_nice(r)   
             elif cmdinput[1]=="ALL":
                 if len(cmdinput)==3:
-                    if cmdinput[2]=='ALUNOS':
-                        r = requests.delete(url+'alunos')
+                    if cmdinput[2]=='STUDENTS':
+                        r = requests.delete(url+'students')
                         print_nice(r)
-                    elif cmdinput[2]=="DISCIPLINAS":
-                        r = requests.delete(url+'disciplinas')
+                    elif cmdinput[2]=="COURSES":
+                        r = requests.delete(url+'courses')
                         print_nice(r)
-                    elif cmdinput[2]=="TURMAS":
-                        r = requests.delete(url+'turmas')
+                    elif cmdinput[2]=="CLASSES":
+                        r = requests.delete(url+'classes')
                         print_nice(r)
-                elif cmdinput[2]=='ALUNOS':
-                    if cmdinput[3]=="TURMA":
-                            msg=json.dumps({'alunos_turma':cmdinput[4]})
+                elif cmdinput[2]=='STUDENTS':
+                    if cmdinput[3]=="CLASS":
+                            msg=json.dumps({'students_turma':cmdinput[4]})
+                            r = requests.delete(url+'students',data=msg)
+                            print_nice(r)
+                    elif cmdinput[3]=="COURSES":
+                            msg=json.dumps({'students_course':cmdinput[4]})
                             r = requests.delete(url+'alunos',data=msg)
                             print_nice(r)
-                    elif cmdinput[3]=="DISCIPLINA":
-                            msg=json.dumps({'alunos_disciplina':cmdinput[4]})
-                            r = requests.delete(url+'alunos',data=msg)
-                            print_nice(r)
-                elif cmdinput[2]=='TURMAS':
-                    msg=json.dumps({'turma_disciplina':cmdinput[3]})
-                    r = requests.delete(url+'turmas',data=msg)
+                elif cmdinput[2]=='CLASSES':
+                    msg=json.dumps({'class_course':cmdinput[3]})
+                    r = requests.delete(url+'classes',data=msg)
                     print_nice(r)
             elif (len(cmdinput)==3):
-                msg=json.dumps({'id_aluno':cmdinput[1],'id_turma':cmdinput[2]})
-                r = requests.delete(url+'turmas',data=msg)
+                msg=json.dumps({'id_student':cmdinput[1],'id_class':cmdinput[2]})
+                r = requests.delete(url+'classes',data=msg)
                 print_nice(r)
             else:
                 print 'Invalid input'
@@ -126,45 +126,45 @@ while on:
             print "Unexpected Error"        
     elif cmdinput[0]=="SHOW":
         try:
-            if cmdinput[1]=="ALUNO":
-                msg=json.dumps({'id_aluno':cmdinput[2]})
-                r = requests.get(url+'alunos',data=msg)
+            if cmdinput[1]=="STUDENT":
+                msg=json.dumps({'id_student':cmdinput[2]})
+                r = requests.get(url+'students',data=msg)
                 print_nice(r)
-            elif cmdinput[1]=="DISCIPLINA":
-                msg=json.dumps({'id_disciplina':cmdinput[2]})
-                r = requests.get(url+'disciplinas',data=msg)
+            elif cmdinput[1]=="COURSE":
+                msg=json.dumps({'id_course':cmdinput[2]})
+                r = requests.get(url+'courses',data=msg)
                 print_nice(r)
-            elif cmdinput[1]=="TURMA":
-                msg=json.dumps({'id_turma':cmdinput[2]})
-                r = requests.get(url+'turmas',data=msg)
+            elif cmdinput[1]=="CLASS":
+                msg=json.dumps({'id_class':cmdinput[2]})
+                r = requests.get(url+'classes',data=msg)
                 print_nice(r)
             elif cmdinput[1]=="ALL":
                 if len(cmdinput)==3:
-                    if cmdinput[2]=='ALUNOS':
-                        r = requests.get(url+'alunos')
+                    if cmdinput[2]=='STUDENTS':
+                        r = requests.get(url+'students')
                         print_nice(r)
-                    elif cmdinput[2]=="DISCIPLINAS":
-                        r = requests.get(url+'disciplinas')
+                    elif cmdinput[2]=="COURSES":
+                        r = requests.get(url+'courses')
                         print_nice(r)
-                    elif cmdinput[2]=="TURMAS":
-                        r = requests.get(url+'turmas')
+                    elif cmdinput[2]=="CLASSES":
+                        r = requests.get(url+'classes')
                         print_nice(r)
-                elif cmdinput[2]=='ALUNOS':
-                    if cmdinput[3]=="TURMA":
-                            msg=json.dumps({'alunos_turma':cmdinput[4]})
-                            r = requests.get(url+'alunos',data=msg)
+                elif cmdinput[2]=='STUDENTS':
+                    if cmdinput[3]=="CLASS":
+                            msg=json.dumps({'students_class':cmdinput[4]})
+                            r = requests.get(url+'students',data=msg)
                             print_nice(r)
-                    elif cmdinput[3]=="DISCIPLINA":
-                            msg=json.dumps({'alunos_disciplina':cmdinput[4]})
-                            r = requests.get(url+'alunos',data=msg)
+                    elif cmdinput[3]=="COURSE":
+                            msg=json.dumps({'students_course':cmdinput[4]})
+                            r = requests.get(url+'students',data=msg)
                             print_nice(r)
-                elif cmdinput[2]=='TURMAS':
-                    msg=json.dumps({'turma_disciplina':cmdinput[3]})
-                    r = requests.get(url+'turmas',data=msg)
+                elif cmdinput[2]=='CLASSES':
+                    msg=json.dumps({'class_course':cmdinput[3]})
+                    r = requests.get(url+'classes',data=msg)
                     print_nice(r)
             elif (len(cmdinput)==3):
-                msg=json.dumps({'id_aluno':cmdinput[1],'id_turma':cmdinput[2]})
-                r = requests.get(url+'turmas',data=msg)
+                msg=json.dumps({'id_student':cmdinput[1],'id_class':cmdinput[2]})
+                r = requests.get(url+'classes',data=msg)
                 print_nice(r)
             else:
                 print 'Invalid input'
